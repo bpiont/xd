@@ -1,1 +1,1 @@
-# https://bpiont.github.io/xd/)
+# https://bpiont.github.io/xd/
