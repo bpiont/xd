@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Udostępnianie ekranu</title>
+    <script src="https://source.zoom.us/zoom-meeting-1.9.9.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+        #container {
+            text-align: center;
+        }
+        #screen {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Udostępnianie ekranu</h1>
+        <div id="screen"></div>
+        <button onclick="startScreenSharing()">Rozpocznij udostępnianie ekranu</button>
+    </div>
+
+    <script>
+        async function startScreenSharing() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia();
+                const videoElement = document.createElement('video');
+                videoElement.srcObject = stream;
+                videoElement.autoplay = true;
+                videoElement.controls = true;
+                document.getElementById('screen').appendChild(videoElement);
+                // Tutaj użyj SDK Zoom do przekazania strumienia wideo
+            } catch (error) {
+                console.error('Błąd podczas udostępniania ekranu:', error);
+            }
+        }
+    </script>
+</body>
+</html>
