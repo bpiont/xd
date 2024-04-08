@@ -51,8 +51,6 @@
             <video id="localVideo" autoplay muted></video>
         </div>
         <button onclick="startScreenSharing()">Start Sharing Screen</button>
-        <button onclick="generateRoomLink()">Generate Room Link</button>
-        <p id="roomLink"></p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
@@ -126,15 +124,8 @@
                 })
                 .catch(error => console.error('Error creating offer:', error));
         }
-
-        function generateRoomLink() {
-            const roomID = Math.random().toString(36).substring(7); // Generowanie losowego identyfikatora pokoju
-            const link = window.location.href + '?room=' + roomID; // Tworzenie linku do pokoju
-            document.getElementById('roomLink').innerText = 'Room Link: ' + link;
-        }
     </script>
 </body>
 </html>
-
 
 
