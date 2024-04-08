@@ -12,8 +12,14 @@
         <div>
             <video id="localVideo" autoplay muted></video>
         </div>
-        <button onclick="startScreenSharing()">Start Sharing Screen</button>
-        <div id="roomLink"></div>
+        <div>
+            <input type="text" id="roomLink" readonly>
+            <button onclick="copyRoomLink()">Copy Room Link</button>
+        </div>
+        <div>
+            <input type="text" id="roomIdInput" placeholder="Enter Room ID">
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
@@ -38,14 +44,10 @@
 
         function startTransmission() {
             pc = new RTCPeerConnection();
-
-            // Dodanie lokalnego strumienia do połączenia
             localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
 
-            // Nasłuchiwanie zdalnych strumieni
             pc.ontrack = event => {
                 if (!document.getElementById('remoteVideo')) {
-                    // Stworzenie elementu video dla zdalnego strumienia
                     const remoteVideo = document.createElement('video');
                     remoteVideo.id = 'remoteVideo';
                     remoteVideo.autoplay = true;
@@ -54,19 +56,16 @@
                 document.getElementById('remoteVideo').srcObject = event.streams[0];
             };
 
-            // Nasłuchiwanie ofert
             socket.on('offer', offer => {
                 pc.setRemoteDescription(new RTCSessionDescription(offer))
                     .then(() => pc.createAnswer())
                     .then(answer => pc.setLocalDescription(answer))
                     .then(() => {
-                        // Przesłanie odpowiedzi do nadawcy
                         socket.emit('answer', { room: roomID, answer: pc.localDescription });
                     })
                     .catch(error => console.error('Error creating answer:', error));
             });
 
-            // Nasłuchiwanie odpowiedzi
             socket.on('answer', data => {
                 if (data.room === roomID) {
                     pc.setRemoteDescription(new RTCSessionDescription(data.answer))
@@ -74,37 +73,64 @@
                 }
             });
 
-            // Nasłuchiwanie kandydatów ICE
-            socket.on('candidate', candidate => {
-                pc.addIceCandidate(candidate)
-                    .catch(error => console.error('Error adding ICE candidate:', error));
+            socket.on('candidate', data => {
+                if (data.room === roomID) {
+                    pc.addIceCandidate(data.candidate)
+                        .catch(error => console.error('Error adding ICE candidate:', error));
+                }
             });
 
-            // Generowanie oferty i wysyłanie jej do drugiego użytkownika
             pc.createOffer()
                 .then(offer => pc.setLocalDescription(offer))
                 .then(() => {
-                    // Przesłanie oferty do drugiego użytkownika
                     socket.emit('offer', { room: roomID, offer: pc.localDescription });
                 })
                 .catch(error => console.error('Error creating offer:', error));
         }
 
-        // Generowanie unikalnego ID pokoju
         function generateRoomID() {
-            return Math.random().toString(36).substring(2, 8).toUpperCase();
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 8; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
         }
 
-        // Utworzenie nowego pokoju i wygenerowanie linku
-        function createRoom() {
+        function copyRoomLink() {
+            const roomLinkInput = document.getElementById('roomLink');
+            roomLinkInput.value = window.location.origin + '/?room=' + roomID;
+            roomLinkInput.select();
+            document.execCommand('copy');
+            alert('Room link copied to clipboard!');
+        }
+
+        function joinRoom() {
+            const roomIdInput = document.getElementById('roomIdInput').value;
+            if (roomIdInput.trim() !== '') {
+                roomID = roomIdInput.trim();
+                document.getElementById('roomLink').value = window.location.origin + '/?room=' + roomID;
+                startScreenSharing();
+            } else {
+                alert('Please enter a valid Room ID.');
+            }
+        }
+
+        // Extract room ID from URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        roomID = urlParams.get('room');
+
+        if (!roomID) {
             roomID = generateRoomID();
-            document.getElementById('roomLink').innerHTML = `Your room ID: <strong>${roomID}</strong>`;
+            history.replaceState({}, document.title, "/" + "?room=" + roomID);
+        } else {
+            // User is joining an existing room
+            document.getElementById('roomLink').value = window.location.href;
+            startScreenSharing();
         }
-
-        // Inicjalizacja pokoju
-        createRoom();
     </script>
 </body>
 </html>
+
 
 
