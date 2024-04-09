@@ -1,7 +1,7 @@
 {
   "functions": {
     "api": {
-      "handler": "server.app", // "app" odnosi się do nazwy eksportowanej funkcji z pliku server.js
+      "handler": "server.js", // "app" odnosi się do nazwy eksportowanej funkcji z pliku server.js
       "runtime": "vercel-node@20.12",
       "memory": 512
     }
