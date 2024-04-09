@@ -1,7 +1,7 @@
 {
   "functions": {
     "api": {
-      "runtime": "vercel-node@1.11",
+      "runtime": "vercel-node@1.0",
       "memory": 512
     }
   }
