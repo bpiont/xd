@@ -12,13 +12,16 @@
         <div>
             <video id="localVideo" autoplay muted></video>
         </div>
-        <button onclick="startScreenSharing()">Udostępnianie ekranu</button>
+        <div id="roomControls">
+            <input type="text" id="roomIdInput" placeholder="Enter Room ID">
+            <button onclick="joinRoom()">Join Room</button>
+        </div>
+        <button onclick="startScreenSharing()">Start Screen Sharing</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script>
-        const socket = io(); // Inicjalizacja socket.io na kliencie
-        
+        const socket = io(); // Initialize Socket.IO on the client
         let localStream;
         let pc;
 
@@ -27,8 +30,6 @@
                 const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
                 document.getElementById('localVideo').srcObject = stream;
                 localStream = stream;
-
-                // Rozpoczęcie transmisji strumienia
                 startTransmission();
             } catch (error) {
                 console.error('Error starting screen sharing:', error);
@@ -36,58 +37,22 @@
         }
 
         function startTransmission() {
-            pc = new RTCPeerConnection();
+            // Your code for starting transmission...
+        }
 
-            // Dodanie lokalnego strumienia do połączenia
-            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-            // Nasłuchiwanie zdalnych strumieni
-            pc.ontrack = event => {
-                if (!document.getElementById('remoteVideo')) {
-                    // Stworzenie elementu video dla zdalnego strumienia
-                    const remoteVideo = document.createElement('video');
-                    remoteVideo.id = 'remoteVideo';
-                    remoteVideo.autoplay = true;
-                    document.getElementById('container').appendChild(remoteVideo);
-                }
-                document.getElementById('remoteVideo').srcObject = event.streams[0];
-            };
-
-            // Nasłuchiwanie ofert
-            socket.on('offer', offer => {
-                pc.setRemoteDescription(new RTCSessionDescription(offer))
-                    .then(() => pc.createAnswer())
-                    .then(answer => pc.setLocalDescription(answer))
-                    .then(() => {
-                        // Przesłanie odpowiedzi do nadawcy
-                        socket.emit('answer', pc.localDescription);
-                    })
-                    .catch(error => console.error('Error creating answer:', error));
-            });
-
-            // Nasłuchiwanie odpowiedzi
-            socket.on('answer', answer => {
-                pc.setRemoteDescription(new RTCSessionDescription(answer))
-                    .catch(error => console.error('Error setting remote description:', error));
-            });
-
-            // Nasłuchiwanie kandydatów ICE
-            socket.on('candidate', candidate => {
-                pc.addIceCandidate(candidate)
-                    .catch(error => console.error('Error adding ICE candidate:', error));
-            });
-
-            // Generowanie oferty i wysyłanie jej do drugiego użytkownika
-            pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer))
-                .then(() => {
-                    // Przesłanie oferty do drugiego użytkownika
-                    socket.emit('offer', pc.localDescription);
-                })
-                .catch(error => console.error('Error creating offer:', error));
+        function joinRoom() {
+            const roomId = document.getElementById('roomIdInput').value;
+            if (roomId.trim() !== '') {
+                // Implement logic to join the room
+                // You might want to emit a 'joinRoom' event to the server
+                // and handle room joining logic there
+                console.log('Joining room:', roomId);
+            } else {
+                alert('Please enter a room ID.');
+            }
         }
     </script>
 </body>
-</html> 
+</html>
 
 
