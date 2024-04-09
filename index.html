@@ -48,16 +48,24 @@
             }
 
             try {
-                const response = await fetch(videoUrl);
-                const html = await response.text();
+                // Utwórz nowe okno przeglądarki przy użyciu puppeteer
+                const browser = await puppeteer.launch();
+                const page = await browser.newPage();
+                await page.goto(videoUrl);
 
-                // Wyszukaj wszystkie adresy URL plików wideo w kodzie HTML strony
-                const videoUrls = html.match(/(https?:\/\/[^"'\s]+\.mp4)/gi);
-                if (videoUrls && videoUrls.length > 0) {
-                    // Otwórz pierwszy znaleziony adres URL w nowym oknie przeglądarki
-                    window.open(videoUrls[0], '_blank');
+                // Znajdź adres URL pliku wideo na stronie
+                const videoSrc = await page.evaluate(() => {
+                    const videoElement = document.querySelector('video');
+                    return videoElement ? videoElement.src : null;
+                });
+
+                await browser.close();
+
+                if (videoSrc) {
+                    // Otwórz adres URL w nowym oknie przeglądarki
+                    window.open(videoSrc, '_blank');
                 } else {
-                    throw new Error('Nie można znaleźć adresów URL plików wideo.');
+                    throw new Error('Nie można znaleźć adresu URL pliku wideo.');
                 }
             } catch (error) {
                 console.error('Wystąpił błąd podczas pobierania filmu:', error);
