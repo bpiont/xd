@@ -1,5 +1,8 @@
 const { Server } = require('socket.io');
 
+// Deklaracja zmiennej przechowującej aktywne pokoje
+const activeRooms = {};
+
 module.exports = (req, res) => {
   if (!res.socket.server.io) {
     console.log('First use, starting socket.io');
@@ -72,3 +75,4 @@ function leaveRoom(socket) {
 function generateRoomId() {
   return Math.random().toString(36).substring(2, 8);
 }
+
