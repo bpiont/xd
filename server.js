@@ -6,57 +6,34 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-const rooms = {}; // Przechowuje informacje o istniejących pokojach
+const rooms = {};
+
+app.use(express.static('public')); // Ustawienie folderu publicznego dla plików statycznych
+
+app.get('/join/:roomId', (req, res) => {
+    const roomId = req.params.roomId;
+    res.sendFile(__dirname + '/public/join.html'); // Przekazanie klientowi pliku HTML dołączania do pokoju
+});
 
 io.on('connection', socket => {
-    // Obsługa zdarzenia tworzenia nowego pokoju
-    socket.on('createRoom', () => {
-        const roomId = generateRoomId(); // Funkcja generująca unikalny identyfikator pokoju
-        rooms[roomId] = { users: [socket.id] }; // Dodajemy pierwszego użytkownika do nowego pokoju
-        socket.join(roomId); // Dołączamy użytkownika do pokoju
-        socket.emit('roomCreated', roomId); // Informujemy użytkownika o utworzeniu pokoju i przekazujemy identyfikator
+    socket.on('offer', ({ roomId, offer }) => {
+        io.to(roomId).emit('offer', offer); // Przekazywanie oferty do odpowiedniego pokoju
     });
 
-    // Obsługa zdarzenia dołączania do istniejącego pokoju
-    socket.on('joinRoom', roomId => {
-        if (rooms[roomId]) {
-            rooms[roomId].users.push(socket.id); // Dodajemy użytkownika do istniejącego pokoju
-            socket.join(roomId); // Dołączamy użytkownika do pokoju
-            io.to(roomId).emit('userJoined', socket.id); // Informujemy wszystkich użytkowników w pokoju o dołączeniu nowego użytkownika
-        } else {
-            // Obsługa sytuacji, gdy podany identyfikator pokoju nie istnieje
-            socket.emit('roomNotFound');
-        }
+    socket.on('answer', ({ roomId, answer }) => {
+        io.to(roomId).emit('answer', answer); // Przekazywanie odpowiedzi do odpowiedniego pokoju
     });
 
-    // Obsługa rozłączenia użytkownika
+    socket.on('candidate', ({ roomId, candidate }) => {
+        io.to(roomId).emit('candidate', candidate); // Przekazywanie kandydata ICE do odpowiedniego pokoju
+    });
+
     socket.on('disconnect', () => {
-        // Szukamy pokoju, do którego użytkownik należał
-        for (const roomId in rooms) {
-            if (rooms[roomId].users.includes(socket.id)) {
-                // Usuwamy użytkownika z listy użytkowników w pokoju
-                rooms[roomId].users = rooms[roomId].users.filter(userId => userId !== socket.id);
-                // Jeśli nie ma już żadnych użytkowników w pokoju, usuwamy pokój
-                if (rooms[roomId].users.length === 0) {
-                    delete rooms[roomId];
-                } else {
-                    // Jeśli są jeszcze inni użytkownicy w pokoju, informujemy ich o odejściu użytkownika
-                    io.to(roomId).emit('userLeft', socket.id);
-                }
-                break;
-            }
-        }
+        // Logika obsługi rozłączenia użytkownika
     });
 });
 
-// Funkcja generująca unikalny identyfikator pokoju
-function generateRoomId() {
-    return Math.random().toString(36).substr(2, 8).toUpperCase(); // Możesz dostosować długość identyfikatora
-}
-
-// Start serwera
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });
 
