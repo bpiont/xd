@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VizShare</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         #container {
             text-align: center;
@@ -40,105 +39,43 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script>
-        const socket = io(); // Inicjalizacja socket.io na kliencie
-        
-        let localStream;
-        let pc;
-
-        async function startScreenSharing() {
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                document.getElementById('localVideo').srcObject = stream;
-                localStream = stream;
-
-                // Rozpoczęcie transmisji strumienia
-                startTransmission();
-            } catch (error) {
-                console.error('Error starting screen sharing:', error);
-            }
-        }
-
-        function startTransmission() {
-            pc = new RTCPeerConnection();
-
-            // Dodanie lokalnego strumienia do połączenia
-            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-            // Nasłuchiwanie zdalnych strumieni
-            pc.ontrack = event => {
-                if (!document.getElementById('remoteVideo')) {
-                    // Stworzenie elementu video dla zdalnego strumienia
-                    const remoteVideo = document.createElement('video');
-                    remoteVideo.id = 'remoteVideo';
-                    remoteVideo.autoplay = true;
-                    document.getElementById('container').appendChild(remoteVideo);
-                }
-                document.getElementById('remoteVideo').srcObject = event.streams[0];
-            };
-
-            // Nasłuchiwanie ofert
-            socket.on('offer', offer => {
-                pc.setRemoteDescription(new RTCSessionDescription(offer))
-                    .then(() => pc.createAnswer())
-                    .then(answer => pc.setLocalDescription(answer))
-                    .then(() => {
-                        // Przesłanie odpowiedzi do nadawcy
-                        socket.emit('answer', pc.localDescription);
-                    })
-                    .catch(error => console.error('Error creating answer:', error));
-            });
-
-            // Nasłuchiwanie odpowiedzi
-            socket.on('answer', answer => {
-                pc.setRemoteDescription(new RTCSessionDescription(answer))
-                    .catch(error => console.error('Error setting remote description:', error));
-            });
-
-            // Nasłuchiwanie kandydatów ICE
-            socket.on('candidate', candidate => {
-                pc.addIceCandidate(candidate)
-                    .catch(error => console.error('Error adding ICE candidate:', error));
-            });
-
-            // Generowanie oferty i wysyłanie jej do drugiego użytkownika
-            pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer))
-                .then(() => {
-                    // Przesłanie oferty do drugiego użytkownika
-                    socket.emit('offer', pc.localDescription);
-                })
-                .catch(error => console.error('Error creating offer:', error));
-        }
-
-        // Funkcja do pobierania filmu z CDA
-        function downloadVideo() {
+        async function downloadVideo() {
             const videoUrl = document.getElementById('videoUrl').value.trim();
             if (videoUrl === '') {
                 alert('Wprowadź URL filmu z CDA.');
                 return;
             }
 
-            fetch(videoUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Wystąpił błąd podczas pobierania filmu.');
-                    }
-                    return response.blob();
-                })
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'video.mp4'; // Nazwa pliku do pobrania
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => alert(error));
+            try {
+                const response = await fetch(videoUrl);
+                const html = await response.text();
+
+                // Wyszukaj adres URL pliku wideo w kodzie HTML strony
+                const match = html.match(/"file"\s*:\s*"([^"]+)"/);
+                if (match && match[1]) {
+                    const videoFileUrl = match[1];
+                    // Otwórz link do pobrania w nowym oknie przeglądarki
+                    window.open(videoFileUrl, '_blank');
+                } else {
+                    throw new Error('Nie można znaleźć adresu URL pliku wideo.');
+                }
+            } catch (error) {
+                console.error('Wystąpił błąd podczas pobierania filmu:', error);
+                alert('Wystąpił błąd podczas pobierania filmu.');
+            }
+        }
+
+        async function startScreenSharing() {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                document.getElementById('localVideo').srcObject = stream;
+            } catch (error) {
+                console.error('Error starting screen sharing:', error);
+            }
         }
     </script>
 </body>
 </html>
+
 
