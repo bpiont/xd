@@ -43,14 +43,18 @@
         function joinRoom() {
             const roomId = document.getElementById('roomIdInput').value;
             if (roomId.trim() !== '') {
-                // Implement logic to join the room
-                // You might want to emit a 'joinRoom' event to the server
-                // and handle room joining logic there
-                console.log('Joining room:', roomId);
+                // Emit an event to the server to join the room
+                socket.emit('joinRoom', roomId);
             } else {
                 alert('Please enter a room ID.');
             }
         }
+
+        // Handle server response when user successfully joins the room
+        socket.on('joinedRoom', () => {
+            console.log('Successfully joined the room.');
+            // You can perform additional actions here, such as updating UI
+        });
     </script>
 </body>
 </html>
