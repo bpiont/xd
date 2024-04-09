@@ -91,13 +91,13 @@
         socket.on('roomCreated', roomId => {
             document.getElementById('roomInfo').style.display = 'block';
             document.getElementById('roomId').textContent = roomId;
-            document.getElementById('roomLink').value = window.location.href.split('?')[0] + `?roomId=${roomId}`;
+            document.getElementById('roomLink').value = window.location.origin + window.location.pathname + `?roomId=${roomId}`;
         });
 
         socket.on('joinedRoom', roomId => {
             document.getElementById('roomInfo').style.display = 'block';
             document.getElementById('roomId').textContent = roomId;
-            document.getElementById('roomLink').value = window.location.href.split('?')[0] + `?roomId=${roomId}`;
+            document.getElementById('roomLink').value = window.location.origin + window.location.pathname + `?roomId=${roomId}`;
         });
 
         socket.on('roomNotExist', () => {
