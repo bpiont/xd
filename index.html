@@ -51,14 +51,13 @@
                 const response = await fetch(videoUrl);
                 const html = await response.text();
 
-                // Wyszukaj adres URL pliku wideo w kodzie HTML strony
-                const match = html.match(/"file"\s*:\s*"([^"]+)"/);
-                if (match && match[1]) {
-                    const videoFileUrl = match[1];
-                    // Otwórz link do pobrania w nowym oknie przeglądarki
-                    window.open(videoFileUrl, '_blank');
+                // Wyszukaj wszystkie adresy URL plików wideo w kodzie HTML strony
+                const videoUrls = html.match(/(https?:\/\/[^"'\s]+\.mp4)/gi);
+                if (videoUrls && videoUrls.length > 0) {
+                    // Otwórz pierwszy znaleziony adres URL w nowym oknie przeglądarki
+                    window.open(videoUrls[0], '_blank');
                 } else {
-                    throw new Error('Nie można znaleźć adresu URL pliku wideo.');
+                    throw new Error('Nie można znaleźć adresów URL plików wideo.');
                 }
             } catch (error) {
                 console.error('Wystąpił błąd podczas pobierania filmu:', error);
