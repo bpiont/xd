@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VizShare</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        #container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <div id="container">
@@ -12,7 +31,13 @@
         <div>
             <video id="localVideo" autoplay muted></video>
         </div>
-        <button onclick="startScreenSharing()">Start Sharing Screen</button>
+        <button onclick="startScreenSharing()">Udostępnianie ekranu</button>
+
+        <!-- Dodane elementy do pobierania filmów z CDA -->
+        <div>
+            <input type="text" id="videoUrl" placeholder="Wklej tutaj URL filmu z CDA">
+            <button onclick="downloadVideo()">Pobierz film</button>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
@@ -86,7 +111,34 @@
                 })
                 .catch(error => console.error('Error creating offer:', error));
         }
+
+        // Funkcja do pobierania filmu z CDA
+        function downloadVideo() {
+            const videoUrl = document.getElementById('videoUrl').value.trim();
+            if (videoUrl === '') {
+                alert('Wprowadź URL filmu z CDA.');
+                return;
+            }
+
+            fetch(videoUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Wystąpił błąd podczas pobierania filmu.');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'video.mp4'; // Nazwa pliku do pobrania
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(error => alert(error));
+        }
     </script>
 </body>
-</html> 
+</html>
 
