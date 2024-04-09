@@ -17,8 +17,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script>
-        const socket = io(); // Inicjalizacja socket.io na kliencie
-        
+        // Zmień ten adres URL na adres swojej aplikacji na Vercel
+        const socket = io('https://vizshare.vercel.app');
+
         let localStream;
         let pc;
 
@@ -88,7 +89,7 @@
         }
     </script>
 </body>
-</html> 
+</html>
 
 
 
