@@ -13,10 +13,6 @@
             <video id="localVideo" autoplay muted></video>
         </div>
         <button onclick="startScreenSharing()">Start Sharing Screen</button>
-        <hr>
-        <h2>Create Room and Invite</h2>
-        <button onclick="createAndInvite()">Create Room & Invite</button>
-        <p id="invitationLink"></p>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
@@ -40,13 +36,6 @@
         }
 
         function startTransmission() {
-            // Funkcja generująca unikalny identyfikator pokoju
-            function generateRoomId() {
-                return Math.random().toString(36).substr(2, 8).toUpperCase(); // Możesz dostosować długość identyfikatora
-            }
-
-            const roomId = generateRoomId(); // Generowanie unikalnego identyfikatora pokoju
-
             pc = new RTCPeerConnection();
 
             // Dodanie lokalnego strumienia do połączenia
@@ -88,26 +77,16 @@
                     .catch(error => console.error('Error adding ICE candidate:', error));
             });
 
-            // Generowanie linku do zaproszenia
-            const invitationLink = window.location.origin + '/join/' + roomId;
-            document.getElementById('invitationLink').innerHTML = `<a href="${invitationLink}" target="_blank">Invitation Link</a>`;
-
             // Generowanie oferty i wysyłanie jej do drugiego użytkownika
             pc.createOffer()
                 .then(offer => pc.setLocalDescription(offer))
                 .then(() => {
                     // Przesłanie oferty do drugiego użytkownika
-                    socket.emit('offer', { roomId, offer: pc.localDescription });
+                    socket.emit('offer', pc.localDescription);
                 })
                 .catch(error => console.error('Error creating offer:', error));
         }
-
-        // Funkcja tworząca pokój i generująca link do zaproszenia
-        function createAndInvite() {
-            startScreenSharing();
-        }
     </script>
 </body>
-</html>
-
+</html> 
 
