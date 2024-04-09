@@ -13,23 +13,31 @@
             <video id="localVideo" autoplay muted></video>
         </div>
         <button onclick="startScreenSharing()">Udostępnianie ekranu</button>
+        <button onclick="createRoom()">Stwórz pokój</button>
+        <div id="roomInfo" style="display: none;">
+            <p>Twój pokój: <span id="roomId"></span></p>
+            <p>Udostępnij ten link:</p>
+            <input type="text" id="roomLink" readonly>
+        </div>
+        <div>
+            <input type="text" id="joinRoomInput" placeholder="Wprowadź ID pokoju">
+            <button onclick="joinRoom()">Dołącz do pokoju</button>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
     <script>
-        // Zmień ten adres URL na adres swojej aplikacji na Vercel
-        const socket = io('https://vizshare.vercel.app');
+        const socket = io();
 
         let localStream;
         let pc;
+        let roomId;
 
         async function startScreenSharing() {
             try {
                 const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
                 document.getElementById('localVideo').srcObject = stream;
                 localStream = stream;
-
-                // Rozpoczęcie transmisji strumienia
                 startTransmission();
             } catch (error) {
                 console.error('Error starting screen sharing:', error);
@@ -38,14 +46,9 @@
 
         function startTransmission() {
             pc = new RTCPeerConnection();
-
-            // Dodanie lokalnego strumienia do połączenia
             localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-            // Nasłuchiwanie zdalnych strumieni
             pc.ontrack = event => {
                 if (!document.getElementById('remoteVideo')) {
-                    // Stworzenie elementu video dla zdalnego strumienia
                     const remoteVideo = document.createElement('video');
                     remoteVideo.id = 'remoteVideo';
                     remoteVideo.autoplay = true;
@@ -53,43 +56,66 @@
                 }
                 document.getElementById('remoteVideo').srcObject = event.streams[0];
             };
-
-            // Nasłuchiwanie ofert
             socket.on('offer', offer => {
                 pc.setRemoteDescription(new RTCSessionDescription(offer))
                     .then(() => pc.createAnswer())
                     .then(answer => pc.setLocalDescription(answer))
                     .then(() => {
-                        // Przesłanie odpowiedzi do nadawcy
-                        socket.emit('answer', pc.localDescription);
+                        socket.emit('answer', { roomId: roomId, answer: pc.localDescription });
                     })
                     .catch(error => console.error('Error creating answer:', error));
             });
-
-            // Nasłuchiwanie odpowiedzi
             socket.on('answer', answer => {
-                pc.setRemoteDescription(new RTCSessionDescription(answer))
-                    .catch(error => console.error('Error setting remote description:', error));
+                pc.setRemoteDescription(new RTCSessionDescription(answer));
             });
-
-            // Nasłuchiwanie kandydatów ICE
             socket.on('candidate', candidate => {
-                pc.addIceCandidate(candidate)
-                    .catch(error => console.error('Error adding ICE candidate:', error));
+                pc.addIceCandidate(candidate);
             });
-
-            // Generowanie oferty i wysyłanie jej do drugiego użytkownika
             pc.createOffer()
                 .then(offer => pc.setLocalDescription(offer))
                 .then(() => {
-                    // Przesłanie oferty do drugiego użytkownika
-                    socket.emit('offer', pc.localDescription);
+                    socket.emit('offer', { roomId: roomId, offer: pc.localDescription });
                 })
                 .catch(error => console.error('Error creating offer:', error));
         }
+
+        function createRoom() {
+            socket.emit('createRoom');
+        }
+
+        function joinRoom() {
+            const roomId = document.getElementById('joinRoomInput').value;
+            socket.emit('joinRoom', roomId);
+        }
+
+        socket.on('roomCreated', roomId => {
+            document.getElementById('roomInfo').style.display = 'block';
+            document.getElementById('roomId').textContent = roomId;
+            document.getElementById('roomLink').value = window.location.href.split('?')[0] + `?roomId=${roomId}`;
+        });
+
+        socket.on('joinedRoom', roomId => {
+            document.getElementById('roomInfo').style.display = 'block';
+            document.getElementById('roomId').textContent = roomId;
+            document.getElementById('roomLink').value = window.location.href.split('?')[0] + `?roomId=${roomId}`;
+        });
+
+        socket.on('roomNotExist', () => {
+            alert('Pokój o podanym ID nie istnieje.');
+        });
+
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            roomId = urlParams.get('roomId');
+            if (roomId) {
+                document.getElementById('joinRoomInput').value = roomId;
+                joinRoom();
+            }
+        };
     </script>
 </body>
 </html>
+
 
 
 
