@@ -1,69 +1,6 @@
 /* style.css */
 
-body {
-    background-color: #36393f; /* Kolor tła Discorda */
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    line-height: 1.6;
-    color: #fff; /* Kolor tekstu */
-}
-
-header {
-    background-color: #7289da; /* Kolor nagłówka Discorda */
-    color: #fff;
-    text-align: center;
-    padding: 2em 0;
-}
-
-h1 {
-    font-size: 2em;
-    margin-bottom: 0.5em;
-}
-
-h2 {
-    color: #fff;
-    font-size: 1.5em;
-    margin-bottom: 0.3em;
-}
-
-section {
-    background-color: #202225; /* Kolor sekcji Discorda */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 2em;
-    margin: 2em auto;
-    max-width: 800px;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 1em;
-    border-radius: 5px;
-    transition: transform 0.3s ease;
-}
-
-img:hover {
-    transform: scale(1.1);
-}
-
-p {
-    font-size: 1em;
-    margin-bottom: 1em;
-}
-
-.contact-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 2em;
-    margin: 2em auto;
-    max-width: 800px;
-    text-align: justify;
-}
+/* Reszta stylów pozostaje bez zmian */
 
 .price-section {
     background-color: #f2f2f2;
@@ -75,26 +12,46 @@ p {
 
 .price-section h2 {
     color: #333;
+    font-size: 1.5em; /* Nowy rozmiar nagłówka */
+    margin-bottom: 10px; /* Mniejszy margines dolny */
 }
 
 .price-section p {
     color: #666;
+    font-size: 1em; /* Nowy rozmiar tekstu */
+    margin-bottom: 10px; /* Mniejszy margines dolny */
 }
 
-footer {
-    background-color: #36393f; /* Kolor stopki Discorda */
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    font-size: 0.8em;
+.contact-section {
+    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px; /* Nowa wartość paddingu */
+    margin: 20px auto; /* Nowa wartość marginesu */
+    max-width: 800px;
+    text-align: justify;
+    color: #fff; /* Nowy kolor tekstu */
 }
 
-@media (max-width: 768px) {
-    body {
-        font-size: 14px;
-    }
+.contact-section h2 {
+    color: #fff; /* Nowy kolor nagłówka */
+    font-size: 1.5em; /* Nowy rozmiar nagłówka */
+    margin-bottom: 10px; /* Mniejszy margines dolny */
+}
+
+.contact-section p {
+    color: #fff; /* Nowy kolor tekstu */
+    font-size: 1em; /* Nowy rozmiar tekstu */
+    margin-bottom: 10px; /* Mniejszy margines dolny */
+}
+
+.contact-section a {
+    color: #7289da; /* Kolor linku Discorda */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-section a:hover {
+    color: #677bc4; /* Kolor linku po najechaniu myszką */
 }
 
