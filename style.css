@@ -65,6 +65,22 @@ p {
     text-align: justify;
 }
 
+.price-section {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.price-section h2 {
+    color: #333;
+}
+
+.price-section p {
+    color: #666;
+}
+
 footer {
     background-color: #36393f; /* Kolor stopki Discorda */
     color: #fff;
