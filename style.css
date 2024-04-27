@@ -1,5 +1,3 @@
-/* style.css */
-
 body {
     background-color: #36393f; /* Kolor tła Discorda */
     font-family: 'Roboto', sans-serif;
@@ -13,9 +11,16 @@ body {
 
 header {
     background-color: #7289da; /* Kolor nagłówka Discorda */
-    color: #fff;
     text-align: center;
-    padding: 2em 0;
+    padding: 1em 0; /* Zmniejszono padding, aby lepiej pasował do wysokości logo */
+}
+
+/* Dodano styl dla logo w nagłówku */
+header img {
+    height: 80px; /* Wysokość logo, dostosuj w razie potrzeby */
+    width: auto; /* Zachowanie proporcji */
+    display: block;
+    margin: 0 auto;
 }
 
 h1 {
@@ -55,18 +60,9 @@ p {
     margin-bottom: 1em;
 }
 
-.contact-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 2em;
-    margin: 2em auto;
-    max-width: 800px;
-    text-align: justify;
-}
-
+.contact-section,
 .price-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
+    background-color: #202225; /* Kolor sekcji kontaktowej i cennika Discorda */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 2em;
@@ -89,6 +85,9 @@ footer {
 @media (max-width: 768px) {
     body {
         font-size: 14px;
+    }
+    header img {
+        height: 60px; /* Mniejsza wysokość logo na urządzeniach mobilnych */
     }
 }
 
