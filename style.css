@@ -1,14 +1,14 @@
 /* style.css */
 
 body {
-    background-color: #36393f; /* Kolor tła Discorda */
+    background-color: #fff; /* Białe tło */
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     line-height: 1.6;
-    color: #fff; /* Kolor tekstu */
+    color: #000; /* Czarny kolor tekstu */
 }
 
 header {
@@ -24,13 +24,13 @@ h1 {
 }
 
 h2 {
-    color: #fff;
+    color: #000; /* Czarny kolor tekstu */
     font-size: 1.5em;
     margin-bottom: 0.3em;
 }
 
 section {
-    background-color: #202225; /* Kolor sekcji Discorda */
+    background-color: #f2f2f2; /* Jasnoszary kolor tła */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 2em;
@@ -55,18 +55,8 @@ p {
     margin-bottom: 1em;
 }
 
-.contact-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 2em;
-    margin: 2em auto;
-    max-width: 800px;
-    text-align: justify;
-}
-
-.price-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
+.contact-section, .price-section {
+    background-color: #fff; /* Białe tło */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     padding: 2em;
