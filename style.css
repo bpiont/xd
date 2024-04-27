@@ -55,22 +55,6 @@ p {
     margin-bottom: 1em;
 }
 
-button {
-    background-color: #7289da; /* Kolor przycisku Discorda */
-    color: #fff;
-    padding: 1em 2em;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background-color: #677bc4; /* Kolor przycisku po najechaniu myszką */
-    transform: scale(1.05);
-}
-
 .contact-section {
     background-color: #202225; /* Kolor sekcji kontaktowej Discorda */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
