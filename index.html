@@ -1,96 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VizShare</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Twój Bot Discord - Wersja Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <!-- Link do pliku style.css -->
 </head>
+
 <body>
-    <div id="container">
-        <h1>VizShare</h1>
-<p>Kliknij przycisk "Udostępnianie ekranu", aby rozpocząć udostępnianie swojego ekranu.</p>
-        <div>
-            <video id="localVideo" autoplay muted></video>
-        </div>
-        <button onclick="startScreenSharing()">Udostępnianie ekranu</button>
+
+    <header>
+        <h1>Twój Bot Discord - Wersja Premium</h1>
+    </header>
+
+    <section class="description-section">
+        <h2>Dołącz na Nasz Serwer Premium</h2>
+        <p>Dołącz do naszego serwera premium, aby otrzymać dostęp do ekskluzywnych funkcji, spersonalizowanych ustawień oraz priorytetowego wsparcia technicznego.</p>
+        <a href="https://discord.gg/premium" target="_blank">
+            <button>Dołącz teraz!</button>
+        </a>
+    </section>
+
+    <section>
+        <h2>Zrzuty Ekranu z Wersji Premium</h2>
+        <figure>
+            <img src="https://i.imgur.com/premium-screenshot1.png" alt="Funkcja 1">
+            <figcaption>Nowa funkcja premium w akcji.</figcaption>
+        </figure>
+        <figure>
+            <img src="https://i.imgur.com/premium-screenshot2.png" alt="Funkcja 2">
+            <figcaption>Inna funkcja premium w akcji.</figcaption>
+        </figure>
+        <!-- You can add more screenshots here -->
+    </section>
+
+    <div class="contact-section">
+        <h2>Kontakt</h2>
+        <p>Masz pytania dotyczące wersji premium? Skontaktuj się z nami przez e-mail: <a href="mailto:premium@example.com">premium@example.com</a></p>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js"></script>
-    <script>
-        // Zmień ten adres URL na adres swojej aplikacji na Vercel
-        const socket = io('https://my-vercel-app.vercel.app');
+    <section class="description-section">
+        <h2>Odkryj Nowe Możliwości z Twój Bot Discord Premium</h2>
+        <!-- Add premium-specific description here -->
+        <p><strong>Ekskluzywne Funkcje:</strong> Rozszerz swoje możliwości z nowymi funkcjami, które są dostępne wyłącznie dla użytkowników premium.</p>
+        <p><strong>Personalizacja:</strong> Dostosuj bota do swoich potrzeb dzięki zaawansowanym opcjom konfiguracyjnym.</p>
+        <p><strong>Priorytetowe Wsparcie:</strong> Zyskaj dostęp do naszego zespołu wsparcia technicznego z pierwszeństwem obsługi Twoich pytań i problemów.</p>
+        <a href="https://discord.gg/premium" target="_blank">
+            <button>Dołącz teraz!</button>
+        </a>
+    </section>
 
-        let localStream;
-        let pc;
+    <footer>
+        &copy; 2023 !bpiont
+    </footer>
 
-        async function startScreenSharing() {
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                document.getElementById('localVideo').srcObject = stream;
-                localStream = stream;
-
-                // Rozpoczęcie transmisji strumienia
-                startTransmission();
-            } catch (error) {
-                console.error('Error starting screen sharing:', error);
-            }
-        }
-
-        function startTransmission() {
-            pc = new RTCPeerConnection();
-
-            // Dodanie lokalnego strumienia do połączenia
-            localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-
-            // Nasłuchiwanie zdalnych strumieni
-            pc.ontrack = event => {
-                if (!document.getElementById('remoteVideo')) {
-                    // Stworzenie elementu video dla zdalnego strumienia
-                    const remoteVideo = document.createElement('video');
-                    remoteVideo.id = 'remoteVideo';
-                    remoteVideo.autoplay = true;
-                    document.getElementById('container').appendChild(remoteVideo);
-                }
-                document.getElementById('remoteVideo').srcObject = event.streams[0];
-            };
-
-            // Nasłuchiwanie ofert
-            socket.on('offer', offer => {
-                pc.setRemoteDescription(new RTCSessionDescription(offer))
-                    .then(() => pc.createAnswer())
-                    .then(answer => pc.setLocalDescription(answer))
-                    .then(() => {
-                        // Przesłanie odpowiedzi do nadawcy
-                        socket.emit('answer', pc.localDescription);
-                    })
-                    .catch(error => console.error('Error creating answer:', error));
-            });
-
-            // Nasłuchiwanie odpowiedzi
-            socket.on('answer', answer => {
-                pc.setRemoteDescription(new RTCSessionDescription(answer))
-                    .catch(error => console.error('Error setting remote description:', error));
-            });
-
-            // Nasłuchiwanie kandydatów ICE
-            socket.on('candidate', candidate => {
-                pc.addIceCandidate(candidate)
-                    .catch(error => console.error('Error adding ICE candidate:', error));
-            });
-
-            // Generowanie oferty i wysyłanie jej do drugiego użytkownika
-            pc.createOffer()
-                .then(offer => pc.setLocalDescription(offer))
-                .then(() => {
-                    // Przesłanie oferty do drugiego użytkownika
-                    socket.emit('offer', pc.localDescription);
-                })
-                .catch(error => console.error('Error creating offer:', error));
-        }
-    </script>
 </body>
-</html>
 
+</html>
 
 
