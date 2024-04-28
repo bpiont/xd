@@ -1,4 +1,4 @@
-fetch('https://custombot.vercel.app/stats')
+fetch('(link unavailable)')
   .then(response => response.json())
   .then(data => {
     document.getElementById('server-count').textContent = data.guilds;
