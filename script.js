@@ -1,6 +1,6 @@
 // Funkcja pobierająca i aktualizująca dane o bocie z Discord API
 function fetchAndUpdateBotData() {
-  fetch('https://discord.com/api/bots/1233916202435346432', {
+  fetch('https://discord.com/api/v9/users/@me', {
     headers: {
       'Authorization': 'MTIzMzkxNjIwMjQzNTM0NjQzMg.Gr0DQI.f24JTowvE1NTjhdeO-P3VofiAoqNQMZ7WkEHyw'
     }
