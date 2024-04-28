@@ -2,7 +2,7 @@
 function fetchBotData() {
   fetch('https://discord.com/api/bots/BOT_ID', {
     headers: {
-      'Authorization': 'Bot YOUR_BOT_TOKEN'
+      'Authorization': 'MTIzMzkxNjIwMjQzNTM0NjQzMg.G21EGf.X6jycfCjAcJZ5d0nE17wqFdYmX4yrDg5ggPmc4'
     }
   })
   .then(response => response.json())
