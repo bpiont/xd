@@ -1,3 +1,24 @@
+.smaller-header {
+    padding: 10px 20px; /* Adjust as needed */
+}
+
+.fade-in-section {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.fade-in-section.active {
+    opacity: 1;
+}
+
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    text-align: center;
+}
 
 
 body {
