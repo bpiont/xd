@@ -87,15 +87,36 @@ p {
     margin: 2em auto;
     max-width: 800px;
     text-align: justify;
+    position: relative; /* Dodane dla pozycjonowania galerii w obrębie tej sekcji */
 }
 
-.servers-section ul {
-    list-style-type: none;
-    padding: 0;
+.servers-section .gallery-title {
+    text-align: center;
+    margin-top: 2em;
+    color: #fff;
 }
 
-.servers-section ul li {
-    margin-bottom: 0.5em;
+.servers-section .gallery-container {
+    display: flex; /* Ustawienie kontenera galerii na flex, aby umożliwić wyświetlanie zdjęć obok siebie */
+    justify-content: center; /* Wyśrodkowanie zawartości wzdłuż osi poziomej */
+    flex-wrap: wrap; /* Zapewnienie, że zdjęcia spadają do nowej linii, gdy nie ma wystarczająco dużo miejsca */
+}
+
+.servers-section .gallery-item {
+    flex: 0 0 33.33%; /* Ustawienie szerokości elementu galerii na 1/3 szerokości kontenera */
+    padding: 0.5em; /* Dodatkowy padding między elementami galerii */
+    box-sizing: border-box; /* Ustawienie box-sizing na border-box, aby padding nie wpływał na szerokość elementu */
+}
+
+.servers-section .gallery-item img {
+    width: 100%; /* Ustawienie szerokości obrazka na 100% szerokości jego kontenera */
+    height: auto; /* Ustawienie wysokości obrazka na auto, aby zachować proporcje */
+    border-radius: 5px; /* Zaokrąglenie rogów obrazka */
+    transition: transform 0.3s ease; /* Dodanie efektu przejścia przy najechaniu myszą */
+}
+
+.servers-section .gallery-item:hover img {
+    transform: scale(1.05); /* Powiększenie obrazka przy najechaniu myszą */
 }
 
 /* Styl dla stopki */
@@ -105,35 +126,6 @@ footer {
     text-align: center;
     padding: 1em 0;
     font-size: 0.8em;
-}
-
-/* Styl dla tytułu galerii */
-.gallery-title {
-    text-align: center;
-    margin-top: 2em;
-    color: #fff;
-}
-
-/* Styl dla obrazków w galerii */
-.gallery-item {
-    display: inline-block;
-    width: 400px; /* Zwiększenie szerokości obrazków */
-    height: 300px; /* Ustawienie wysokości na 300px, zachowanie proporcji */
-    overflow: hidden; /* Zapewnienie, że obrazy zostaną przycięte do obszaru */
-    margin-right: 20px;
-    text-align: center; /* Wyśrodkowanie obrazków */
-}
-
-.gallery-item img {
-    max-width: 100%;
-    height: 100%; /* Zapewnienie, że obrazy w całości zmieszczą się w obszarze */
-    display: inline-block;
-    vertical-align: middle;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover img {
-    transform: scale(1.1);
 }
 
 /* Media queries dla responsywności */
@@ -148,8 +140,6 @@ footer {
         padding: 8px 16px;
         font-size: 0.9em;
     }
-}
-
 }
 
 
