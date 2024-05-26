@@ -22,6 +22,23 @@
     background-color: #45a049;
 }
 
+.premium-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff6600;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 2px solid #ff6600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.premium-link:hover {
+    background-color: #ff8533;
+    color: #fff;
+}
+
 /* Styl dla całego ciała strony */
 body {
     background-color: #36393f; /* Kolor tła Discorda */
