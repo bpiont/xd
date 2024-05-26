@@ -1,10 +1,28 @@
-User
+
 /* Resetowanie stylów */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+ /* Dodaj animację */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Styl dla loga Discord */
+    .discord-logo {
+        width: 50px;
+        height: auto;
+        transition: transform 0.3s ease-in-out; /* Dodaj płynny przejście */
+    }
+
+    /* Zastosuj animację na najechanie myszką */
+    .discord-logo:hover {
+        animation: spin 2s linear infinite; /* Obrót loga */
+    }
 
 /* Styl dla przycisku pobierania */
 .download-button {
