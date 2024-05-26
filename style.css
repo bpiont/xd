@@ -87,27 +87,34 @@ p {
     margin: 2em auto;
     max-width: 800px;
     text-align: justify;
-    position: relative; /* Dodane dla pozycjonowania galerii w obrębie tej sekcji */
+    position: relative; /* Dodane dla pozycjonowania galerii w obrębie tej sekcji */ 
+    display: flex; /* Ustawienie wyświetlania sekcji jako flex */
+    flex-direction: column; /* Ustawienie kierunku flex na kolumnowy */
+    align-items: center; /* Wyśrodkowanie zawartości wzdłuż osi pionowej */
 }
 
+/* Styl dla tytułu galerii */
 .servers-section .gallery-title {
     text-align: center;
     margin-top: 2em;
     color: #fff;
 }
 
+/* Styl dla kontenera galerii */
 .servers-section .gallery-container {
-    display: flex; /* Ustawienie kontenera galerii na flex, aby umożliwić wyświetlanie zdjęć obok siebie */
+    display: flex; /* Ustawienie kontenera galerii na flex */
     justify-content: center; /* Wyśrodkowanie zawartości wzdłuż osi poziomej */
     flex-wrap: wrap; /* Zapewnienie, że zdjęcia spadają do nowej linii, gdy nie ma wystarczająco dużo miejsca */
 }
 
+/* Styl dla elementu galerii */
 .servers-section .gallery-item {
-    flex: 0 0 33.33%; /* Ustawienie szerokości elementu galerii na 1/3 szerokości kontenera */
-    padding: 0.5em; /* Dodatkowy padding między elementami galerii */
+    flex: 0 0 calc(33.33% - 2em); /* Ustawienie szerokości elementu galerii na 1/3 szerokości kontenera z uwzględnieniem marginesu */
+    margin: 1em; /* Dodatkowy margines między elementami galerii */
     box-sizing: border-box; /* Ustawienie box-sizing na border-box, aby padding nie wpływał na szerokość elementu */
 }
 
+/* Styl dla obrazków w galerii */
 .servers-section .gallery-item img {
     width: 100%; /* Ustawienie szerokości obrazka na 100% szerokości jego kontenera */
     height: auto; /* Ustawienie wysokości obrazka na auto, aby zachować proporcje */
