@@ -107,16 +107,25 @@ footer {
     font-size: 0.8em;
 }
 
-/* Styl dla obrazków */
-img {
+/* Styl dla obrazków w galerii */
+.gallery-item {
+    display: inline-block;
+    width: 300px;
+    height: 300px; /* Ustawienie szerokości i wysokości na 300px, tworząc kwadrat */
+    overflow: hidden; /* Zapewnienie, że obrazy zostaną przycięte do kwadratu */
+    margin-right: 20px;
+    text-align: center; /* Wyśrodkowanie obrazków */
+}
+
+.gallery-item img {
     max-width: 100%;
-    height: auto;
-    margin-bottom: 1em;
-    border-radius: 5px;
+    max-height: 100%; /* Zapewnienie, że obrazy w całości zmieszczą się w kwadracie */
+    display: inline-block;
+    vertical-align: middle;
     transition: transform 0.3s ease;
 }
 
-img:hover {
+.gallery-item:hover img {
     transform: scale(1.1);
 }
 
