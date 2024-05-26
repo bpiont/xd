@@ -1,3 +1,10 @@
+/* Resetowanie stylów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Styl dla przycisku pobierania */
 .download-button {
     position: absolute;
@@ -20,9 +27,6 @@ body {
     background-color: #36393f; /* Kolor tła Discorda */
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     line-height: 1.6;
     color: #fff; /* Kolor tekstu */
 }
@@ -129,4 +133,3 @@ img:hover {
         font-size: 0.9em;
     }
 }
-
