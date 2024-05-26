@@ -38,14 +38,14 @@
         <p>Chcesz, aby Twój serwer pojawił się na liście? Skontaktuj się z nami!</p>
     </section>
 
-<h2 class="gallery-title fade-in-section">Pokaz zdjęć z wersji Premium CustomBota</h2>
+    <h2 class="gallery-title fade-in-section">Pokaz zdjęć z wersji Premium CustomBota</h2>
 
     <div class="gallery-container fade-in-section">
         <div class="gallery-item">
-            <img src="zaproszenia.png" alt="Premium Version of CustomBot">
+            <img src="zaproszenia.png" alt="Premium Version of CustomBot" class="gallery-image">
         </div>
         <div class="gallery-item">
-            <img src="poziomy.png" alt="Premium Version 2 of CustomBot">
+            <img src="poziomy.png" alt="Premium Version 2 of CustomBot" class="gallery-image">
         </div>
         <!-- Dodaj więcej zdjęć tak samo jak powyżej -->
 
@@ -59,6 +59,22 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Dodajemy obsługę kliknięć na obrazy w galerii
+        const images = document.querySelectorAll('.gallery-image');
+        
+        images.forEach(image => {
+            image.addEventListener('click', () => {
+                // Po kliknięciu zmień obraz na następny w kolejności
+                const current = image.src;
+                const currentIndex = Array.from(images).findIndex(img => img.src === current);
+                const nextIndex = (currentIndex + 1) % images.length;
+                const nextImage = images[nextIndex];
+                image.classList.add('hidden');
+                nextImage.classList.remove('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
 
