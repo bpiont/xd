@@ -107,6 +107,13 @@ footer {
     font-size: 0.8em;
 }
 
+/* Styl dla tytułu galerii */
+.gallery-title {
+    text-align: center;
+    margin-top: 2em;
+    color: #fff;
+}
+
 /* Styl dla obrazków w galerii */
 .gallery-item {
     display: inline-block;
@@ -142,3 +149,4 @@ footer {
         font-size: 0.9em;
     }
 }
+
