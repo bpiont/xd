@@ -5,7 +5,32 @@
     box-sizing: border-box;
 }
 
-/* Styl dla przycisku pobierania */
+/* Ogólne style dla całego ciała strony */
+body {
+    background-color: #36393f; /* Kolor tła Discorda */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #fff; /* Kolor tekstu */
+}
+
+/* Styl dla nagłówka */
+header {
+    background-color: #7289da; /* Kolor nagłówka Discorda */
+    text-align: center;
+    padding: 1em 0;
+    position: relative; /* Dodatkowy styl dla pozycjonowania przycisku */
+}
+
+/* Styl dla logo w nagłówku */
+header img {
+    height: 60px; /* Wysokość logo, dostosuj w razie potrzeby */
+    width: auto; /* Zachowanie proporcji */
+    display: inline-block;
+    margin-bottom: -10px; /* Dopasowanie logo do górnego marginesu */
+}
+
+/* Styl dla przycisku "Pobierz Wersję Demo" */
 .download-button {
     position: absolute;
     top: 10px;
@@ -22,6 +47,7 @@
     background-color: #45a049;
 }
 
+/* Styl dla przycisku "Zdjęcia Premium" */
 .premium-link {
     display: inline-block;
     padding: 10px 20px;
@@ -33,37 +59,15 @@
     border: 2px solid #ff6600;
     transition: background-color 0.3s ease, color 0.3s ease;
     position: absolute;
-    top: 10px;
+    top: 50%;
+    transform: translateY(-50%); /* Wyśrodkowanie przycisku w pionie */
     right: 10px;
+    z-index: 999; /* Zapewnia, że przycisk będzie na wierzchu */
 }
 
 .premium-link:hover {
     background-color: #ff8533;
     color: #fff;
-}
-
-/* Styl dla całego ciała strony */
-body {
-    background-color: #36393f; /* Kolor tła Discorda */
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: #fff; /* Kolor tekstu */
-}
-
-header {
-    background-color: #7289da; /* Kolor nagłówka Discorda */
-    text-align: center;
-    padding: 1em 0; /* Zmniejszono padding, aby lepiej pasował do wysokości logo */
-    position: relative;
-}
-
-/* Styl dla logo w nagłówku */
-header img {
-    height: 80px; /* Wysokość logo, dostosuj w razie potrzeby */
-    width: auto; /* Zachowanie proporcji */
-    display: block;
-    margin: 0 auto;
 }
 
 /* Ogólne style dla sekcji */
@@ -77,56 +81,6 @@ section {
     text-align: justify;
 }
 
-h1, h2 {
-    color: #fff;
-    margin-bottom: 0.5em;
-}
-
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size: 1.5em;
-}
-
-p {
-    font-size: 1em;
-    margin-bottom: 1em;
-}
-
-/* Styl dla sekcji specyficznych */
-.contact-section,
-.price-section,
-.servers-section,
-.demo-section {
-    background-color: #202225; /* Kolor sekcji kontaktowej i cennika Discorda */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 2em;
-    margin: 2em auto;
-    max-width: 800px;
-    text-align: justify;
-}
-
-.servers-section ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.servers-section ul li {
-    margin-bottom: 0.5em;
-}
-
-/* Styl dla stopki */
-footer {
-    background-color: #36393f; /* Kolor stopki Discorda */
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
-    font-size: 0.8em;
-}
-
 /* Styl dla tytułu galerii */
 .gallery-title {
     text-align: center;
@@ -137,23 +91,58 @@ footer {
 /* Styl dla obrazków w galerii */
 .gallery-item {
     display: inline-block;
-    width: 400px; /* Zwiększenie szerokości obrazków */
-    height: 300px; /* Ustawienie wysokości na 300px, zachowanie proporcji */
-    overflow: hidden; /* Zapewnienie, że obrazy zostaną przycięte do obszaru */
-    margin-right: 20px;
-    text-align: center; /* Wyśrodkowanie obrazków */
+    width: 45%; /* Ustawienie szerokości obrazków na 45% */
+    margin: 1%; /* Margines wokół obrazków */
 }
 
 .gallery-item img {
     max-width: 100%;
-    height: 100%; /* Zapewnienie, że obrazy w całości zmieszczą się w obszarze */
-    display: inline-block;
-    vertical-align: middle;
+    height: auto; /* Automatyczna wysokość obrazków */
+    display: block;
+    margin: 0 auto; /* Wyśrodkowanie obrazków */
     transition: transform 0.3s ease;
 }
 
 .gallery-item:hover img {
     transform: scale(1.1);
+}
+
+/* Styl dla formularzy */
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff; /* Kolor tła pola formularza */
+    color: #36393f; /* Kolor tekstu w polu formularza */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff; /* Kolor tła pola formularza */
+    color: #36393f; /* Kolor tekstu w polu formularza */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #7289da; /* Kolor tła przycisku formularza */
+    color: #fff; /* Kolor tekstu w przycisku formularza */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #677bc4; /* Kolor tła przycisku formularza po najechaniu */
 }
 
 /* Media queries dla responsywności */
@@ -162,11 +151,14 @@ footer {
         font-size: 14px;
     }
     header img {
-        height: 60px; /* Mniejsza wysokość logo na urządzeniach mobilnych */
+        height: 50px; /* Mniejsza wysokość logo na urządzeniach mobilnych */
     }
-    .download-button {
+    .premium-link {
         padding: 8px 16px;
         font-size: 0.9em;
     }
+    .gallery-item {
+        width: 100%; /* Obrazki na urządzeniach mobilnych zajmują całą szerokość */
+        margin: 2% 0; /* Margines między obrazkami */
+    }
 }
-
