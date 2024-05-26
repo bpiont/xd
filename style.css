@@ -117,16 +117,16 @@ footer {
 /* Styl dla obrazków w galerii */
 .gallery-item {
     display: inline-block;
-    width: 300px;
-    height: 300px; /* Ustawienie szerokości i wysokości na 300px, tworząc kwadrat */
-    overflow: hidden; /* Zapewnienie, że obrazy zostaną przycięte do kwadratu */
+    width: 400px; /* Zwiększenie szerokości obrazków */
+    height: 300px; /* Ustawienie wysokości na 300px, zachowanie proporcji */
+    overflow: hidden; /* Zapewnienie, że obrazy zostaną przycięte do obszaru */
     margin-right: 20px;
     text-align: center; /* Wyśrodkowanie obrazków */
 }
 
 .gallery-item img {
     max-width: 100%;
-    max-height: 100%; /* Zapewnienie, że obrazy w całości zmieszczą się w kwadracie */
+    height: 100%; /* Zapewnienie, że obrazy w całości zmieszczą się w obszarze */
     display: inline-block;
     vertical-align: middle;
     transition: transform 0.3s ease;
@@ -149,4 +149,5 @@ footer {
         font-size: 0.9em;
     }
 }
+
 
